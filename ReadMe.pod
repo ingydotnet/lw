@@ -6,12 +6,11 @@ See http://github.com/ingydotnet/swim-pm#readme
 
 =encoding utf8
 
-lw ==
+=head1 Name
 
-Commandline Tool for Liquid Web API
+lw - Commandline Tool for Liquid Web API
 
-=for html
-<a href="https://travis-ci.org/ingydotnet/lw"><img src="https://travis-ci.org/ingydotnet/lw.png" alt="lw"></a>
+<badge travis ingydotnet/lw>
 
 =head1 Synopsis
 
