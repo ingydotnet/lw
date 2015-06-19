@@ -1,0 +1,76 @@
+lw
+==
+
+Commandline Tool for Liquid Web API
+
+<badge travis ingydotnet/lw>
+
+= Synopsis
+
+  lw help
+  lw auth
+
+  lw config username <your-lw-username>
+  lw config password <your-lw-password>
+
+  lw server-list
+  lw server <id>
+  lw server-create
+  lw server-destroy
+
+= Description
+
+`lw` is a commandline tool for interacting with the Liquid Web public API. ie
+Creating VM servers with your liquid web account, getting server information,
+etc. See:
+
+* https://www.liquidweb.com/
+* https://www.stormondemand.com/api/docs/v1/
+
+= Installation
+
+The simplest way to install `lw` is:
+
+  git clone https://github.com/ingydotnet/lw
+  source $PWD/lw/init
+
+Now the `lw` command is ready to use, including command completion and
+manpages.
+
+Add the `source …` line above to your shell's startup file to make it
+persistent. The path to the `init` script must be an absolute path.
+
+= Commands
+
+- `config`
+
+  …
+
+- `server-create`
+
+  …
+
+= System Dependencies
+
+Ths command requires the following common system tools:
+
+* Bash 3.2 or higher
+* Git 1.7.0 or higher
+* `curl`
+
+At this stage, it probably will only work on a POSIX system (ie not Windows).
+
+= Configuration
+
+The LW API needs to know your user name and password for your Liquid Web
+account. You'll need to use the `lw config` command to set these.
+
+= Author
+
+Written by Ingy döt Net <ingy@ingy.net>
+
+= Copyright & License
+
+Copyright 2015. Ingy döt Net.
+
+The MIT License (MIT)

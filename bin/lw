@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+set -e
+
+source "$(dirname $0)/../ext/bashplus/bin/bash+"
+bash+:import :std can
+
+GETOPT_SPEC="\
+lw <command> <options> <arguments>
+
+The most commonly used commands:
+  help, config, auth
+  server-create, server-list, server-info, server-destroy
+
+See 'lw help' for more help.
+
+Options:
+--
+h           Show the command summary
+help        Browse the complete 'lw' documentation
+ 
+q,quiet     Show minimal output
+v,verbose   Show verbose output
+ 
+token=      Explicitly specify the LW v1 API Authentication Token
+d,dryrun    Check arguments but don't actually run the API command
+T           Show (don't hide) API token in the verbose output
+ 
+O           Debug - Show response output
+H           Debug - Show reponse headers
+J           Debug - Show parsed JSON response
+x           Debug - Turn on Bash trace (set -x) output
+"
+
+main() {
+  get-env-vars
+
+  api-post
+}
+
+get-env-vars() {
+  if [ -n "$LW_PROFILE" ]; then
+    if [ -f "$LW_PROFILE" ]; then
+      source $
+    fi
+  fi
+  source profile
+  url=${LWAPI_SERVER-?LWAPI_SERVER not defined}
+  url=${url%/}
+}
+
+api-post() {
+  (
+    set -x
+    curl --request POST https://$LWAPI_USERNAME:$LWAPI_PASSWORD@$url/Account/Auth/token -d '{}'
+  )
+}
+
+[ "$0" != "$BASH_SOURCE" ] || main "$@"
+
+# vim: set lisp:

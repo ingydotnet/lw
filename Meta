@@ -1,0 +1,32 @@
+=meta: 0.0.2
+
+name: lw
+version: 0.0.1
+abstract: Commandline Tool for the Liquid Web API
+homepage: https://github.com/ingydotnet/lw
+
+license: MIT
+copyright: 2015
+author:
+  name: Ingy döt Net
+  email: ingy@ingy.net
+  github: ingydotnet
+  twitter: ingydotnet
+  freenode: ingy
+  homepage: http://ingy.net
+
+requires:
+  bash: 3.2.0
+  git: 1.7.0
+  bashplus: 0.0.1
+  json: 0.0.1
+
+test:
+  cmd: make test
+  requires:
+    test-more: 0.0.1
+
+devel:
+  git: git@github.org:ingydotnet/lw
+  irc: irc.freenode.net/pkg
+  bug: https://github.com/ingydotnet/lw/issues/
