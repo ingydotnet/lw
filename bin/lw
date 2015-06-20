@@ -33,20 +33,76 @@ x           Debug - Turn on Bash trace (set -x) output
 "
 
 main() {
-  get-env-vars
+  local command command_arguments
+  local lw_root lw_config lw_apiserver lw_username lw_password lw_authtoken
+  local quiet_output verbose_output
+  local raw_output json_output
+  local show_output show_headers show_json
+  local dry_run show_token
+  local terminal_lines terminal_cols
+  init-vars
+  get-opts
 
-  api-post
+  callable-or-source "$command" ||
+    error "unknown 'git hub' command '$command'"
+  "command:$command" "$@"
 }
 
-get-env-vars() {
-  if [ -n "$LW_PROFILE" ]; then
-    if [ -f "$LW_PROFILE" ]; then
-      source $
-    fi
-  fi
-  source profile
-  url=${LWAPI_SERVER-?LWAPI_SERVER not defined}
-  url=${url%/}
+init-vars() {
+  :
+}
+
+get-opts() {
+  [ $# -eq 0 ] && set -- --help
+
+  eval "$(
+    echo "$OPTIONS_SPEC" |
+      git rev-parse --parseopt -- "$@" ||
+    echo exit $?
+  )"
+
+  while [ $# -gt 0 ]; do
+    local option="$1"; shift
+    case "$option" in
+      -q) quiet_output=true ;;
+      -v) verbose_output=true ;;
+      -r)
+        raw_output=true
+        quiet_output=true
+        ;;
+      -j) json_output=true ;;
+
+      -d) dry_run=true ;;
+      -T)
+        show_token=true
+        verbose_output=true
+        quiet_output=false
+        ;;
+
+      --) break ;;
+
+      # Debug options:
+      -O) show_output=true ;;
+      -H) show_headers=true ;;
+      -J) show_json=true ;;
+      -x) set -x ;;
+
+      *) error "unexpected option '$option'" ;;
+    esac
+  done
+
+  [ -z "$list_size" ] && ! interactive && list_size="$Infinity"
+
+  command="$1"; shift
+  command_arguments=("$@")
+
+  [[ "$command" == "setup" ]] ||
+  [[ "$command" = "config" ]] ||
+  [[ "$command" = "config-unset" ]] ||
+  ! (callable-or-source "$command") ||
+    check-config
+
+  true
 }
 
 api-post() {
